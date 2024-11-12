@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API GET and POST Practice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    #output {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Practice GET and POST Requests</h1>
+    <button onclick="fetchPosts()">Get Posts</button>
+    <button onclick="createPost()">Create Post</button>
+    <div id="output"></div>
+  </div>
+
+  <script>
+    const apiUrl = "https://jsonplaceholder.typicode.com/posts";
+
+    // Function to fetch posts (GET request)
+    function fetchPosts() {
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("output").textContent = JSON.stringify(data.slice(0, 5), null, 2);
+        })
+        .catch(error => {
+          document.getElementById("output").textContent = "Error fetching posts: " + error;
+        });
+    }
+
+    // Function to create a new post (POST request)
+    function createPost() {
+      const newPost = {
+        title: "My New Post",
+        body: "This is the content of the new post.",
+        userId: 1
+      };
+
+      fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newPost)
+      })
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("output").textContent = "Post Created:\n" + JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+          document.getElementById("output").textContent = "Error creating post: " + error;
+        });
+    }
+  </script>
+</body>
+</html>
